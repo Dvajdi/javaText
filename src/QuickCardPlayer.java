@@ -58,7 +58,7 @@ public class QuickCardPlayer implements CardPlayerInterface{
   }
 
   @Override
-  public void LoadFile(File file) {
+  public void loadFile(File file) {
     cardList = new ArrayList<>();
     try{
       BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -69,7 +69,6 @@ public class QuickCardPlayer implements CardPlayerInterface{
       reader.close();
     }catch (IOException e){}
     showNextCard();
-
   }
 
   @Override
@@ -77,7 +76,6 @@ public class QuickCardPlayer implements CardPlayerInterface{
     String [] result = lineToPars.split("/");
     QuickCard card = new QuickCard(result[0],result[1]);
     cardList.add(card);
-    System.out.println("карточки готовы");
   }
 
   private void showNextCard(){
@@ -91,14 +89,27 @@ public class QuickCardPlayer implements CardPlayerInterface{
   class NextCardListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
-
+      if(isShowAnswer) {
+        display.setText(currentCard.getAnswer());
+        nextButton.setText("NextCard");
+        isShowAnswer=false;
+      }else{
+        if(currentCardIndex<cardList.size()){
+          showNextCard();
+        }else{
+          display.setText("Это была последняя карточка");
+          nextButton.setEnabled(false);
+        }
+      }
     }
   }
 
   class OpenMenuListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
-
+      JFileChooser fileOpen = new JFileChooser();
+      fileOpen.showOpenDialog(frame);
+      loadFile(fileOpen.getSelectedFile());
     }
   }
 }

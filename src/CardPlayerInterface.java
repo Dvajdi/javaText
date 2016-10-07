@@ -6,7 +6,7 @@ import java.io.File;
 
 public interface CardPlayerInterface {
   public void go();
-  void LoadFile(File file);
+  void loadFile(File file);
   void makeCard(String lineToPars);
 
 
